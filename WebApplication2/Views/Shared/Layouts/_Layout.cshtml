@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - KoreanBeauty</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/Content/images/favicon.ico" type="img/x-icon" rel="shortcut icon">
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizer")
+</head>
+<body>
+    <div id="main-wrapper">
+        @Html.Partial("_Header")
+        @if (ViewBag.Title != "Главная")
+        {
+            @Html.Partial("_Banner");
+        }
+        @RenderBody()
+        @Html.Partial("_Footer")
+    </div>
+    @Scripts.Render("~/bundles/js")
+</body>
+</html>
