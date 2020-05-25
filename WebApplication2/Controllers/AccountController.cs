@@ -1,47 +1,68 @@
-﻿using System;
+﻿using KoreanBeauty.BLL.DataTransfer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        // GET: Account
-        public ActionResult Index()
+        public ActionResult Login()
         {
-            var account = new AccountConfig
+            var model = new LoginModel { User = LoggedUser };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
             {
-                User = new User
+                var user = new UserDTO { Email = model.Email, Password = model.Password };
+                var result = UserAPI.Login(user);
+                if (result.Succeeded)
                 {
-                    Email = "kek@kek.kek",
-                    NickName = "kek",
-                    FirstName = "Lol",
-                    LastName = "cheburek"
+                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
+                    return RedirectToAction("Index", "Home");
                 }
-            };
-            return View(account);
-        }
-        public ActionResult LoginRegister()
-        {
-            return View();
-        }
-        public ActionResult Login(LoginRegisterModel model)
-        {
+                ModelState.AddModelError("", result.Message);
 
-            return RedirectToAction("Index", "Home");
-        }
-        public ActionResult Register(LoginRegisterModel model)
-        {
-            return RedirectToAction("Index", "Home");
-        }
-        public ActionResult Edit(AccountConfig model)
-        {
-            return RedirectToAction("Index", "Home");
+            }
+            return View(model);
         }
 
-
+        public ActionResult Register()
+        {
+            var model = new RegisterModel { User = LoggedUser };
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new UserDTO { Email = model.Email, NickName = model.Nickname, Password = model.Password, Role = "user" };
+                var result = UserAPI.Register(user);
+                if (result.Succeeded)
+                {
+                    FormsAuthentication.SetAuthCookie(model.Email, true);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", result.Message);
+            }
+            return View(model);
+        }
+        [Authorize]
+        public ActionResult Logoff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

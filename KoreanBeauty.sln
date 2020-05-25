@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanBeauty.web", "WebApplication2\KoreanBeauty.web.csproj", "{E7CCD2B1-905F-4968-8443-CD24154D5C1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanBeauty.DAL", "KoreanBeauty.DAL\KoreanBeauty.DAL.csproj", "{B8308976-724D-435B-9926-8CDB2450E795}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanBeauty.BLL", "KoreanBeauty.BLL\KoreanBeauty.BLL.csproj", "{3A6F5D37-97AC-4FFD-8C48-F2C8F7B624FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{E7CCD2B1-905F-4968-8443-CD24154D5C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7CCD2B1-905F-4968-8443-CD24154D5C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7CCD2B1-905F-4968-8443-CD24154D5C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8308976-724D-435B-9926-8CDB2450E795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8308976-724D-435B-9926-8CDB2450E795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8308976-724D-435B-9926-8CDB2450E795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8308976-724D-435B-9926-8CDB2450E795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6F5D37-97AC-4FFD-8C48-F2C8F7B624FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6F5D37-97AC-4FFD-8C48-F2C8F7B624FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6F5D37-97AC-4FFD-8C48-F2C8F7B624FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6F5D37-97AC-4FFD-8C48-F2C8F7B624FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

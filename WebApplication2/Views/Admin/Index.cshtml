@@ -1,0 +1,50 @@
+﻿@model AdminPageModel
+
+@{
+    ViewBag.Title = "Admin Panel";
+    Layout = "~/Views/Shared/Layouts/_Layout.cshtml";
+}
+
+<h2>Admin Panel</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddProduct")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Цена
+        </th>
+        <th>
+            Скидка
+        </th>
+        <th>
+            Картинка
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Products) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>
+        <td>
+            <img src="@string.Format($"/Content/images/product/{item.Id}.jpg")" />
+        </td>
+        <td>
+            @Html.ActionLink("Удалить", "DeleteProduct", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

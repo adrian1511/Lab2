@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace WebApplication2.Models
 {
-    public class LoginRegisterModel
+    public class LoginModel : NavbarModel
     {
+        [Required(ErrorMessage = "Поле логин не заполнено")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Поле пароль не заполнено")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
-        [DisplayName("Запомнить меня")]
+
         public bool RememberMe { get; set; }
     }
 }

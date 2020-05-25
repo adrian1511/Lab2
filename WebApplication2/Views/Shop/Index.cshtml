@@ -1,4 +1,4 @@
-﻿
+﻿@model ShopModel
 @{
     ViewBag.Title = "Магазин";
     Layout = "~/Views/Shared/Layouts/_Layout.cshtml";
@@ -9,144 +9,220 @@
         <div class="row">
             <div class="col-12">
                 <div class="shop-area">
-                    <div class="row">
-                        <div class="col-12">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
+                    @{
+                        var products = Model.Products;
+                        var count = products.Count();
+                        var rows = count / 4;
+                        if (rows * 4 != count)
+                        {
+                            rows++;
+                        }
+                        for (int i = 0; i < rows; i++)
+                        {
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="shop-product">
-                                        <div id="myTabContent-2" class="tab-content">
-                                            <div id="grid" class="tab-pane fade active show">
-                                                <div class="product-grid-view">
-                                                    <div class="row">
-                                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                                            <!--  Single Grid product Start -->
-                                                            <div class="single-grid-product mb-40">
-                                                                <div class="product-image">
-                                                                    <div class="product-label">
-                                                                        <span>-20%</span>
-                                                                    </div>
-                                                                    <a href="single-product.html">
-                                                                        <img src="/Content/images/product/product-1.jpg" class="img-fluid" alt="">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="shop-product">
+                                                <div id="myTabContent-2" class="tab-content">
+                                                    <div id="grid" class="tab-pane fade active show">
+                                                        <div class="product-grid-view">
+                                                                                <div class="row">
+                                                                                    @for (int j = i * 4; j < 4 + i * 4 && j < count; j++)
+                                                                                    {
+                                                                                        var product = products.ElementAt(j);
+                                                                                        var productUrl = Url.Action("Product", "Shop", new { id = product.Id });
+                                                                                    <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                                        <!--  Single Grid product Start -->
+                                                                                        <div class="single-grid-product mb-40">
+                                                                                            <div class="product-image">
+                                                                                                <div class="product-label">
+                                                                                                    @if (product.Discount > 0)
+                                                                                                    {
+                                                                                                        <span>@string.Format($"-{product.Discount}%")</span>
+                                                                                                    }
+                                                                                                </div>
+                                                                                                <a href="@productUrl">
+                                                                                                    <img src="@string.Format($"/Content/images/product/{product.Id}.jpg")" class="img-fluid" alt="">
+                                                                                                </a>
 
-                                                                    </a>
+                                                                                                <div class="product-action">
+                                                                                                    <ul>
+                                                                                                        @if (User.Identity.IsAuthenticated && Model.User.Role == "user")
+                                                                                                        {
+                                                                                                            <li>
+                                                                                                                @Html.Raw(Ajax.ActionLink(
+                                                                                                                    "LinkTextToken",
+                                                                                                                    "AddToCart", new { id = product.Id },
+                                                                                                                    new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "empty" }
+                                                                                                                    ).ToHtmlString().Replace("LinkTextToken", "<i class=\"fa fa-cart-plus\"></i>"))
+                                                                                                            </li>
+                                                                                                        }
+                                                                                                        <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
+                                                                                                        @*<li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>*@
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="product-content">
+                                                                                                <h3 class="title"> <a href="@productUrl">@product.Name</a></h3>
+                                                                                                <p class="product-price">
+                                                                                                    <span class="discounted-price">@string.Format("${0:0.00}", product.Price * (100 - product.Discount) / 100)</span>
+                                                                                                    <span class="main-price discounted">$@product.Price</span>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--  Single Grid product End -->
+                                                                                    </div>
+                                                                                    }
+                                                                                </div>
 
-                                                                    <div class="product-action">
-                                                                        <ul>
-                                                                            <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
-                                                                            <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                            <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-content">
-                                                                    <h3 class="title"> <a href="single-product.html">Маска с жемчугом</a></h3>
-                                                                    <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
-                                                                </div>
-                                                            </div>
-                                                            <!--  Single Grid product End -->
-                                                        </div>
-
-                                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                                            <!--  Single Grid product Start -->
-                                                            <div class="single-grid-product mb-40">
-                                                                <div class="product-image">
-                                                                    <div class="product-label">
-                                                                        <span>-20%</span>
-                                                                    </div>
-                                                                    <a href="single-product.html">
-                                                                        <img src="/Content/images/product/product-2.jpg" class="img-fluid" alt="">
-
-                                                                    </a>
-
-                                                                    <div class="product-action">
-                                                                        <ul>
-                                                                            <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
-                                                                            <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                            <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-content">
-                                                                    <h3 class="title"> <a href="single-product.html">Маска с гранатом</a></h3>
-                                                                    <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
-                                                                </div>
-                                                            </div>
-                                                            <!--  Single Grid product End -->
-                                                        </div>
-
-                                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                                            <!--  Single Grid product Start -->
-                                                            <div class="single-grid-product mb-40">
-                                                                <div class="product-image">
-                                                                    <div class="product-label">
-                                                                        <span>-20%</span>
-                                                                    </div>
-                                                                    <a href="single-product.html">
-                                                                        <img src="/Content/images/product/product-3.jpg" class="img-fluid" alt="">
-                                                                    </a>
-
-                                                                    <div class="product-action">
-                                                                        <ul>
-                                                                            <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
-                                                                            <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                            <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-content">
-                                                                    <h3 class="title"> <a href="single-product.html">Маска с алоэ</a></h3>
-                                                                    <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
-                                                                </div>
-                                                            </div>
-                                                            <!--  Single Grid product End -->
-                                                        </div>
-
-                                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                                            <!--  Single Grid product Start -->
-                                                            <div class="single-grid-product mb-40">
-                                                                <div class="product-image">
-                                                                    <a href="single-product.html">
-                                                                        <img src="/Content/images/product/product-4.jpg" class="img-fluid" alt="">
-                                                                    </a>
-
-                                                                    <div class="product-action">
-                                                                        <ul>
-                                                                            <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
-                                                                            <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
-                                                                            <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-content">
-                                                                    <h3 class="title"> <a href="single-product.html">Маска Snail</a></h3>
-                                                                    <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
-                                                                </div>
-                                                            </div>
-                                                            <!--  Single Grid product End -->
                                                         </div>
                                                     </div>
-
                                                 </div>
+
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-30 mb-sm-40 mb-xs-30">
 
+                                </div>
+                            </div>
+                        }
+                    }
+                    @*<div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="shop-product">
+                                            <div id="myTabContent-2" class="tab-content">
+                                                <div id="grid" class="tab-pane fade active show">
+                                                    <div class="product-grid-view">
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <!--  Single Grid product Start -->
+                                                                <div class="single-grid-product mb-40">
+                                                                    <div class="product-image">
+                                                                        <div class="product-label">
+                                                                            <span>-20%</span>
+                                                                        </div>
+                                                                        <a href="single-product.html">
+                                                                            <img src="/Content/images/product/product-1.jpg" class="img-fluid" alt="">
+
+                                                                        </a>
+
+                                                                        <div class="product-action">
+                                                                            <ul>
+                                                                                <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
+                                                                                <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-content">
+                                                                        <h3 class="title"> <a href="single-product.html">Маска с жемчугом</a></h3>
+                                                                        <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  Single Grid product End -->
+                                                            </div>
+
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <!--  Single Grid product Start -->
+                                                                <div class="single-grid-product mb-40">
+                                                                    <div class="product-image">
+                                                                        <div class="product-label">
+                                                                            <span>-20%</span>
+                                                                        </div>
+                                                                        <a href="single-product.html">
+                                                                            <img src="/Content/images/product/product-2.jpg" class="img-fluid" alt="">
+
+                                                                        </a>
+
+                                                                        <div class="product-action">
+                                                                            <ul>
+                                                                                <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
+                                                                                <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-content">
+                                                                        <h3 class="title"> <a href="single-product.html">Маска с гранатом</a></h3>
+                                                                        <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  Single Grid product End -->
+                                                            </div>
+
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <!--  Single Grid product Start -->
+                                                                <div class="single-grid-product mb-40">
+                                                                    <div class="product-image">
+                                                                        <div class="product-label">
+                                                                            <span>-20%</span>
+                                                                        </div>
+                                                                        <a href="single-product.html">
+                                                                            <img src="/Content/images/product/product-3.jpg" class="img-fluid" alt="">
+                                                                        </a>
+
+                                                                        <div class="product-action">
+                                                                            <ul>
+                                                                                <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
+                                                                                <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-content">
+                                                                        <h3 class="title"> <a href="single-product.html">Маска с алоэ</a></h3>
+                                                                        <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  Single Grid product End -->
+                                                            </div>
+
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <!--  Single Grid product Start -->
+                                                                <div class="single-grid-product mb-40">
+                                                                    <div class="product-image">
+                                                                        <a href="single-product.html">
+                                                                            <img src="/Content/images/product/product-4.jpg" class="img-fluid" alt="">
+                                                                        </a>
+
+                                                                        <div class="product-action">
+                                                                            <ul>
+                                                                                <li><a href="cart.html"><i class="fa fa-cart-plus"></i></a></li>
+                                                                                <li><a href="#quick-view-modal-container" data-toggle="modal" title="Quick View"><i class="fa fa-eye"></i></a></li>
+                                                                                <li><a href="wishlit.html"><i class="fa fa-heart-o"></i></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-content">
+                                                                        <h3 class="title"> <a href="single-product.html">Маска Snail</a></h3>
+                                                                        <p class="product-price"><span class="discounted-price">$1</span> <span class="main-price discounted">$2</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  Single Grid product End -->
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-30 mb-sm-40 mb-xs-30">
+                            <div class="row mb-30 mb-sm-40 mb-xs-30">
 
-                        </div>
-                    </div>
+                            </div>
+                        </div>*@
                 </div>
             </div>
         </div>
     </div>
 </div>
-       
+
 

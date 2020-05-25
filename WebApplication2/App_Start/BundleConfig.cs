@@ -22,6 +22,7 @@ namespace WebApplication2
             bundles.Add(new ScriptBundle("~/bundles/js")
                 .Include(
                 "~/Scripts/jquery-3.5.0.min.js",
+                "~/Scripts/jquery.unobtrusive-ajax.min.js",
                 "~/Scripts/popper.min.js",
                 "~/Scripts/bootstrap.min.js",
                 "~/Scripts/plugins.min.js",

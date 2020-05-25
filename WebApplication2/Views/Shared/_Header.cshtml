@@ -1,4 +1,5 @@
-﻿<header class="header header-transparent header-sticky  d-lg-block d-none">
+﻿@model NavbarModel
+<header class="header header-transparent header-sticky  d-lg-block d-none">
     <div class="header-deafult-area">
         <div class="container">
             <div class="row align-items-center">
@@ -39,11 +40,32 @@
                                 <ul class="currency-dropdown">
                                     <!--Account Currency Start-->
                                     <li>
-                                        <a href="my-account.html">Пользователь</a>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <a>@Model.User.Email</a>
+                                        }
+                                        else
+                                        {
+                                            <a>Пользователь</a>
+                                        }
                                         <ul>
-                                            <li><a href="@Url.Action("LoginRegister", "Account")">Войти</a></li>
-                                            <li><a href="@Url.Action("Index", "Account")">Мой аккаунт</a></li>
-                                            <li><a href="@Url.Action("Cart","Shop")">Корзина</a></li>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                if (Model.User.Role == "admin")
+                                                {
+                                                    <li><a href="@Url.Action("Index", "Admin")">Панель админа</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a href="@Url.Action("Cart","Shop")">Корзина</a></li>
+                                                }
+                                                <li><a href="@Url.Action("Logoff", "Account")">Выйти</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@Url.Action("Login", "Account")">Войти</a></li>
+                                                <li><a href="@Url.Action("Register", "Account")">Создать аккаунт</a></li>
+                                            }
                                         </ul>
                                     </li>
                                     <!--Account Currency End-->
